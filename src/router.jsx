@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createHashRouter, Navigate } from 'react-router-dom';
 import App from './App';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -17,21 +17,30 @@ import LiveClassesManagement from './pages/dashboard/LiveClassesManagement';
 import DashboardLayout from './components/layout/DashboardLayout';
 import { useAuth } from './context/AuthContext';
 
-const ADMIN_ALLOWLIST = (import.meta.env.VITE_ADMIN_ALLOWLIST || '').split(',').map(s => s.trim()).filter(Boolean);
+/* ================= ADMIN EMAIL ALLOWLIST ================= */
+const ADMIN_ALLOWLIST = (import.meta.env.VITE_ADMIN_ALLOWLIST || '')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
 
+/* ================= PROTECTED ROUTE ================= */
 const ProtectedRoute = ({ children }) => {
   const { user, isAdmin } = useAuth();
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
-  // check allowlist when set; if no allowlist configured, permit any authenticated user
+
+  // If allowlist exists → only allowed emails
   if (ADMIN_ALLOWLIST.length > 0 && !isAdmin(ADMIN_ALLOWLIST)) {
     return <Navigate to="/login" replace />;
   }
+
   return children;
 };
 
-export const router = createBrowserRouter([
+/* ================= ROUTER ================= */
+export const router = createHashRouter([
   {
     path: '/',
     element: <App />,
@@ -45,10 +54,14 @@ export const router = createBrowserRouter([
       { path: 'contact', element: <Contact /> },
     ],
   },
+
+  /* LOGIN */
   {
     path: '/login',
     element: <Login />,
   },
+
+  /* DASHBOARD */
   {
     path: '/dashboard',
     element: (
