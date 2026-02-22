@@ -10,7 +10,7 @@ export default defineConfig({
     outDir: 'dist',
   },
   // Set to your GitHub repo name when publishing to GitHub Pages
-  // e.g. if your repo is https://github.com/<user>/educational-platform
-  // set base to '/educational-platform/'
-  base: '/educational-platform/',
+  // This project appears to be published at /desktop-tutorial/
+  // so set base accordingly
+  base: '/desktop-tutorial/',
 })
