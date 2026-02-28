@@ -6,8 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "node scripts/copy-404.js",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/udithninnadabengtech/educational-platform.git"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
